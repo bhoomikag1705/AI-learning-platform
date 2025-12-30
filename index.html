@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Personalized Learning</title>
+<style>
+    body { 
+        font-family: 'Poppins', Arial, sans-serif; 
+        background: linear-gradient(135deg, #c3ec52, #0ba29d); 
+        padding: 30px; 
+        color: #333;
+    }
+    h1 { 
+        text-align: center; 
+        color: #fff; 
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    select, button { 
+        padding: 10px; 
+        margin: 10px 0; 
+        border: none; 
+        border-radius: 6px; 
+        font-size: 16px;
+    }
+    button {
+        background: #0ba29d; 
+        color: #fff; 
+        cursor: pointer; 
+        transition: 0.3s;
+    }
+    button:hover { background: #078777; }
+    .content { 
+        margin-top: 20px; 
+        padding: 20px; 
+        background: #fff; 
+        border-radius: 15px; 
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    table { 
+        width: 100%; 
+        border-collapse: collapse; 
+        margin-top: 10px; 
+        font-size: 16px;
+    }
+    th, td { 
+        border: 1px solid #ddd; 
+        padding: 12px; 
+        text-align: left; 
+    }
+    th { 
+        background-color: #0ba29d; 
+        color: #fff; 
+    }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+    tr:hover { background-color: #d1f0f0; }
+    .topic-icon { margin-right: 8px; }
+    .questions { margin-top: 20px; }
+    .questions h3 { color: #0ba29d; }
+    .questions ul { list-style-type: disc; margin-left: 20px; }
+</style>
+</head>
+<body>
+
+<h1>AI-Based Personalized Learning</h1>
+
+<div style="text-align:center;">
+<label>Select a topic you want to learn:</label>
+<select id="topic">
+    <option value="">--Choose Topic--</option>
+    <option value="math">Mathematics</option>
+    <option value="science">Science</option>
+    <option value="history">History</option>
+    <option value="programming">Programming</option>
+</select>
+<br>
+<button onclick="recommendContent()">Get Timetable & Questions</button>
+</div>
+
+<div class="content" id="recommendation"></div>
+
+<script>
+const contentDB = {
+    math: {
+        timetable: [
+            {time: "9:00 - 10:00 AM", topic: "Algebra Basics", book: "Algebra for Beginners by John Doe", icon: "🧮"},
+            {time: "10:30 - 11:30 AM", topic: "Geometry: Shapes & Angles", book: "Geometry Essentials by Jane Smith", icon: "📐"},
+            {time: "12:00 - 1:00 PM", topic: "Calculus Practice", book: "Calculus Made Easy by Thomas Moore", icon: "📊"}
+        ],
+        questions: [
+            "Solve quadratic equations using factorization.",
+            "Calculate the area of a triangle given its sides.",
+            "Differentiate simple polynomial functions."
+        ]
+    },
+    science: {
+        timetable: [
+            {time: "9:00 - 10:00 AM", topic: "Physics: Motion & Force", book: "Fundamentals of Physics by Halliday", icon: "⚛️"},
+            {time: "10:30 - 11:30 AM", topic: "Chemistry: Reactions", book: "Organic Chemistry by Paula Bruice", icon: "🧪"},
+            {time: "12:00 - 1:00 PM", topic: "Biology: Genetics", book: "Biology Concepts by Campbell", icon: "🧬"}
+        ],
+        questions: [
+            "Explain Newton's three laws of motion with examples.",
+            "Balance chemical equations for simple reactions.",
+            "Describe the structure of DNA."
+        ]
+    },
+    history: {
+        timetable: [
+            {time: "9:00 - 10:00 AM", topic: "Ancient Civilizations", book: "World History by McKay", icon: "🏺"},
+            {time: "10:30 - 11:30 AM", topic: "Industrial Revolution", book: "Modern History by Palmer", icon: "🏭"},
+            {time: "12:00 - 1:00 PM", topic: "Famous Leaders", book: "Leaders of History by Roberts", icon: "👑"}
+        ],
+        questions: [
+            "Name three major ancient civilizations and their contributions.",
+            "Explain the impact of the Industrial Revolution.",
+            "Discuss the achievements of one famous historical leader."
+        ]
+    },
+    programming: {
+        timetable: [
+            {time: "9:00 - 10:00 AM", topic: "Python Basics", book: "Python Crash Course by Eric Matthes", icon: "🐍"},
+            {time: "10:30 - 11:30 AM", topic: "Web Development: HTML/CSS/JS", book: "Web Dev for Beginners by Duckett", icon: "💻"},
+            {time: "12:00 - 1:00 PM", topic: "Data Structures", book: "Data Structures in Python by Goodrich", icon: "🗂️"}
+        ],
+        questions: [
+            "Write a Python program to check prime numbers.",
+            "Create a simple HTML page with CSS styling.",
+            "Explain the difference between lists and dictionaries in Python."
+        ]
+    }
+};
+
+function recommendContent() {
+    const topic = document.getElementById('topic').value;
+    const container = document.getElementById('recommendation');
+    
+    if (!topic) {
+        container.innerHTML = "Please select a topic!";
+        return;
+    }
+
+    // Timetable
+    let tableHTML = "<h3>Suggested Timetable & Books:</h3><table><tr><th>Time</th><th>Topic</th><th>Book</th></tr>";
+    contentDB[topic].timetable.forEach(item => {
+        tableHTML += `<tr>
+            <td>${item.time}</td>
+            <td><span class="topic-icon">${item.icon}</span>${item.topic}</td>
+            <td>${item.book}</td>
+        </tr>`;
+    });
+    tableHTML += "</table>";
+
+    // Important Questions
+    tableHTML += '<div class="questions"><h3>3 Important Questions:</h3><ul>';
+    contentDB[topic].questions.forEach(q => {
+        tableHTML += `<li>${q}</li>`;
+    });
+    tableHTML += '</ul></div>';
+
+    container.innerHTML = tableHTML;
+}
+</script>
+
+</body>
+</html>
+
+
